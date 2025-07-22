@@ -82,5 +82,3 @@ Katkıda bulunmak isterseniz, lütfen aşağıdaki adımları izleyin:
 5.  Bir Pull Request açın.
 
 ## 📄 Lisans
-
-Bu proje MIT Lisansı ile lisanslanmıştır.
