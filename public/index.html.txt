@@ -1,0 +1,5 @@
+window.onload = async function () {
+  const response = await fetch('/api/todos');
+  const todos = await response.json();
+  todos.forEach(showTask);
+};

@@ -1,0 +1,39 @@
+const express = require('express');
+const path = require('path');
+const { Low } = require('lowdb');
+const { JSONFile } = require('lowdb/node');
+const { nanoid } = require('nanoid');
+
+const app = express();
+const port = 3000;
+
+// Veritabanı ayarı (todos.json dosyasına yazar)
+const db = new Low(new JSONFile('todos.json'));
+await db.read();
+db.data ||= { todos: [] };
+
+// Middleware
+app.use(express.static('public'));
+app.use(express.json());
+
+// Görevleri getir
+app.get('/api/todos', (req, res) => {
+  res.json(db.data.todos);
+});
+
+// Yeni görev ekle
+app.post('/api/todos', async (req, res) => {
+  const task = req.body.task;
+  if (!task) return res.status(400).json({ error: 'Görev boş olamaz.' });
+
+  const newTodo = { id: nanoid(), task, completed: false };
+  db.data.todos.push(newTodo);
+  await db.write();
+
+  res.json(newTodo);
+});
+
+// Sunucuyu başlat
+app.listen(port, () => {
+  console.log(`To-Do app running at http://localhost:${port}`);
+});

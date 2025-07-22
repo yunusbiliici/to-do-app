@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>To-Do List</title>
+<head>
+  <meta charset="UTF-8" />
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+</head>
+<body>
+
+  <div class="container">
+    <h1>📝 Yapılacaklar Listesi</h1>
+
+    <div class="input-group">
+  <input type="text" id="taskInput" placeholder="Yeni görev yaz..." />
+  
+  <label style="display: flex; align-items: center; gap: 5px; font-size: 14px;">
+    <input type="checkbox" id="priorityCheckbox" />
+    Öncelikli
+  </label>
+
+  <button onclick="addTask()">Ekle</button>
+</div>
+<ul id="taskList"></ul>
+  </div>
+
+  <script>
+function addTask() {
+  const input = document.getElementById('taskInput');
+  const isPriority = document.getElementById('priorityCheckbox').checked;
+  const taskText = input.value.trim();
+  if (!taskText) return alert('Lütfen bir görev yazın.');
+
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <span style="${isPriority ? 'color:red;font-weight:bold;' : ''}">${taskText}</span>
+    <button class="delete-btn" onclick="deleteTask(this)">✖</button>
+  `;
+
+  li.onclick = function (e) {
+    if (e.target.tagName !== 'BUTTON') {
+      li.classList.toggle('completed');
+    }
+  };
+
+  const list = document.getElementById('taskList');
+  if (isPriority) {
+    list.prepend(li);
+  } else {
+    list.appendChild(li);
+  }
+
+  input.value = '';
+  document.getElementById('priorityCheckbox').checked = false;
+}
+
+
+
+    function deleteTask(button) {
+      const li = button.parentElement;
+      li.remove();
+    }
+  </script>
+
+</body>
+</html>
